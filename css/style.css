@@ -1,0 +1,19 @@
+/* 
+    Document   : style
+    Created on : 2013/05/15, 15:31:36
+    Author     : kazuki
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.navbar-inverse .brand {
+    color : whitesmoke;
+}
+
+.page-sidebar > ul > li.start {
+    margin-top: 10px;
+}
+
+input.m-wrap {
+	background: #fff !important;
+}
