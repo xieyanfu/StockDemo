@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : style
     Created on : 2013/05/15, 15:31:36
     Author     : kazuki
@@ -16,4 +16,12 @@
 
 input.m-wrap {
 	background: #fff !important;
+}
+
+.search-default .chat-form {
+	position: static;
+}
+
+#input_brand_name {
+	float: left;
 }
