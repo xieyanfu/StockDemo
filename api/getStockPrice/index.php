@@ -24,3 +24,4 @@ if( !is_string($res) ){
     echo $_GET['callback'] . "(" . (trim($objJSON->getJSON($res,$num))) . ")";
 }else{
     echo $_GET['callback'] . "(" . json_encode( array('status' => 'ERROR', 'error' => 'failed') ) . ")";
+}
