@@ -1,0 +1,4 @@
+StockDemo
+=========
+
+Visualizing stock price
