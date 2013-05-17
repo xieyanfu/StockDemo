@@ -11,7 +11,10 @@ function makeSQL(){
     else {
         $request .= sprintf(" where brand_code = '0101'");
     }
-    $request .= " limit 5;";
+    if (s($_GET["from"]) != "" and s($_GET["to"]) != ""){
+        $request .= sprintf(" and date between '%s' and '%s'", s($_GET["from"]), s($_GET["to"]));
+    }
+    #$request .= " limit 5;";
     return $request;
 }
 
@@ -25,3 +28,5 @@ if( !is_string($res) ){
 }else{
     echo $_GET['callback'] . "(" . json_encode( array('status' => 'ERROR', 'error' => 'failed') ) . ")";
 }
+mysql_close($link);
+exit;
