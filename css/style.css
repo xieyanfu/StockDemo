@@ -25,3 +25,13 @@ input.m-wrap {
 #input_brand_name {
 	float: left;
 }
+
+.query-log {
+	float: left;
+	margin: 0px 10px 5px 0px;
+	padding: 5px 30px 5px 5px;
+}
+
+.close {
+	margin-top: 5px;
+}

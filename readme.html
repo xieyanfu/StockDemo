@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+body {  font-family: "メイリオ", "meiryo";  font-size: small;}h2 {  padding-left: 10px;  color: #c0392b;  border-left: 5px solid #c0392b; }h1 {  font-size: large;  padding-left: 10px;  color: #8e44ad;  border-left: 5px solid #8e44ad;   }table {  //width: 100%;  margin-bottom: 20px;  border: 1px solid #dddddd;  border-collapse: collapse;  border-left: 0;  -webkit-border-radius: 4px;     -moz-border-radius: 4px;          border-radius: 4px;} table th,table td {  padding: 8px;  line-height: 20px;  text-align: left;  vertical-align: top;  border-top: 1px solid #dddddd;  border-left: 1px solid #dddddd;} table th {  font-weight: bold;  background-color: #f2f2f2;}table thead th { vertical-align: bottom; } table thead:first-child tr:first-child th,table thead:first-child tr:first-child td {  border-top: 0;}hr {  margin: 20px 0;  border: 0;  border-top: 1px solid #eeeeee;  border-bottom: 1px solid #ffffff;} 
+</style>
+<title>autocomplete</title>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<h1>StockDemo API reference</h1>
+
+<h2>autocomplete</h2>
+
+<p><strong>www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/autocomplete/?options<br></strong>
+銘柄名・銘柄コードに関する情報を取得するAPI</p>
+
+<h3>リクエスト</h3>
+
+<table>
+<thead>
+<tr>
+<th> パラメータ </th>
+<th> デフォルト </th>
+<th> 説明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> q </td>
+<td> NULL </td>
+<td> 会社名の頭文字 </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>レスポンス</h3>
+
+<h2>getStockPrice</h2>
+
+<p><strong>www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/getStockPrice/?options</strong><br>
+指定した銘柄の、指定した期間の株価を取得するAPI</p>
+
+<h3>リクエスト</h3>
+
+<table>
+<thead>
+<tr>
+<th> パラメータ </th>
+<th> デフォルト </th>
+<th> 説明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> brand_code </td>
+<td> 0101 </td>
+<td> 銘柄コード（日経平均:0101, NTT data: 9613, ヤフー: 4689, 東京電力: 9501 etc.） </td>
+</tr>
+<tr>
+<td> from </td>
+<td> 2008-01-01 </td>
+<td> 取得開始する日付 </td>
+</tr>
+<tr>
+<td> to </td>
+<td> 2008-01-08 </td>
+<td> 取得終了する日付 </td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
