@@ -59,7 +59,7 @@ var UISliders = function () {
 }();
 
 function addQueryLog(query) {
-	$("#query-log-space").append('<div class="alert alert-info query-log"><button class="close" data-dismiss="alert"></button>' + query + '</div>')
+	$("#query-log-space").append('<div class="alert alert-info query-log"><button class="close" data-dismiss="alert"></button>' + query + '</div>');
 }
 
 var GraphData = function() {
@@ -75,42 +75,42 @@ var GraphData = function() {
 			this.words = {};
 		},
 		addStockpriceData : function(response) {
-			map_brand[selected_brand_name] = selected_brand_code;
-			array = [];
-			for(i=0; i<response.data.length; i++){
-				this.dates.push(response.data[i].date);
-				array.push(Number(response.data[i].opening_price));
+			this.dates = response.data.dates;
+			for (var brand_name in this.map_brand){
+				var brand_code = this.map_brand[brand_name];
+				this.opening_prices[brand_code] = {};
+				for (var date in response.data.stockprices[brand_code]){
+					record = response.data.stockprices[brand_code][date];
+					this.opening_prices[brand_code][date] = record.opening_price;
+				}
+				console.log(this.opening_prices);
 			}
-			this.opening_prices[selected_brand_name] = array;
-			console.log(response);
 		},
-		getStockPrice : function () {
-			if (selected_brand_name in this.map_brand != true){
-				this.map_brand[selected_brand_name] = selected_brand_code;
-			}
-			console.log(this.map_brand);
+		getStockPrice : function (){
+			baseURL = "http://www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/getStockPrice?";
+			this.map_brand[selected_brand_name] = selected_brand_code;
+			brand_codes = "";
 			for (brand_name in this.map_brand){
-				baseURL = "http://www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/getStockPrice?";
-				var data = {
-					brand_code : this.map_brand[brand_name],
-					from : $("#input_date").attr("value"),
-					to: computeToDate()
-				};
-				console.log(data);
-				$.ajax({
-					type: "GET",
-					url: baseURL,
-					data: data,
-					dataType: 'jsonp',
-					success: function(response){
-						console.log(response);
-						addQueryLog(selected_brand_name);
-						GraphData.init();
-						GraphData.addStockpriceData(response);
-						GraphData.drawChart();
-					}
-				});
+				brand_codes += this.map_brand[brand_name] + ',';
 			}
+			var data = {
+				brand_code : brand_codes,
+				from : $("#input_date").attr("value"),
+				to: computeToDate()
+			};
+			console.log(data);
+			$.ajax({
+				type: "GET",
+				url: baseURL,
+				data: data,
+				dataType: 'jsonp',
+				success: function(response){
+					console.log(response);
+					addQueryLog(selected_brand_name);
+					GraphData.addStockpriceData(response);
+					GraphData.drawChart();
+				}
+			});
 		},
 		getMapBrand : function () {
 			console.log(this.map_brand);
@@ -120,23 +120,25 @@ var GraphData = function() {
 			console.log("test");
 			data = new google.visualization.DataTable();
 			data.addColumn('string', '日付');
-			array = [];
+			records = [];
 			for (brand_name in this.map_brand){
 				data.addColumn('number', brand_name);
 			}
-
 			for (i = 0; i < this.dates.length; i++){
-				tmp = [];
-				tmp.push(this.dates[i]);
+				record = []
+				record.push(this.dates[i]);
 				for (brand_name in this.map_brand){
 
-					console.log(this.opening_prices[brand_name]);
-					tmp.push(this.opening_prices[brand_name][i]);
+					console.log(Number(this.opening_prices[this.map_brand[brand_name]][this.dates[i]]));
+					record.push(Number(this.opening_prices[this.map_brand[brand_name]][this.dates[i]]));
 				}
-				array.push(tmp);
+
+				records.push(record);
+
 			}
-			console.log(array);
-			data.addRows(array);
+			console.log(records);
+			data.addRows(records);
+
 
 			google.setOnLoadCallback(drawChart(data));
 		}

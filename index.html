@@ -119,7 +119,7 @@
 					<div class=" search-forms" style="padding:13px 20px;">
 						<div class="row-fluid" >
 
-							<form class="input-cont" action="javascript:getStockPrice();">
+							<form class="input-cont" action="javascript:GraphData.getStockPrice();">
 								<input type="text" id="input_brand_name" data-provide="typeahead" placeholder="銘柄を入力..." class="m-wrap span10">
 								<button type="button" class="btn green span2" style="margin-left: 0px;" onclick="GraphData.getStockPrice()">Search &nbsp; <i class="m-icon-swapright m-icon-white"></i></button>
 							</form>
@@ -217,6 +217,7 @@
 				UISliders.initSliders();
 				selected_brand_code = "0101";
 				selected_brand_name = "日経平均株価225種";
+				GraphData.map_brand = {"日経平均株価225種": "0101"};
 				GraphData.init();
 				GraphData.getStockPrice();
 			});
