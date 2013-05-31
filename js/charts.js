@@ -4,7 +4,7 @@
  */
 
 google.load('visualization', '1.0', {
-	'packages':['corechart']
+	'packages':['corechart', 'annotatedtimeline']
 });
 
 function computeDate(year, month, day, addDays) {
@@ -45,7 +45,7 @@ var UISliders = function () {
 				range: "max",
 				min: 0,
 				max: 5,
-				value: 1,
+				value: 5,
 				slide: function (event, ui) {
 					$("#slider-range-max-amount").text(interval[Number(ui.value)]);
 				}
@@ -95,8 +95,10 @@ var GraphData = function() {
 			}
 			var data = {
 				brand_code : brand_codes,
-				from : $("#input_date").attr("value"),
-				to: computeToDate()
+				//from : $("#input_date").attr("value"),
+				from : "1999-1-1",
+				//to: computeToDate()
+				to: "2012-12-31"
 			};
 			console.log(data);
 			$.ajax({
@@ -117,19 +119,17 @@ var GraphData = function() {
 			return this.map_brand;
 		},
 		drawChart : function () {
-			console.log("test");
 			data = new google.visualization.DataTable();
-			data.addColumn('string', '日付');
+			data.addColumn('date', '日付');
 			records = [];
 			for (brand_name in this.map_brand){
 				data.addColumn('number', brand_name);
+
 			}
 			for (i = 0; i < this.dates.length; i++){
 				record = []
-				record.push(this.dates[i]);
+				record.push(new Date(this.dates[i]));
 				for (brand_name in this.map_brand){
-
-					console.log(Number(this.opening_prices[this.map_brand[brand_name]][this.dates[i]]));
 					record.push(Number(this.opening_prices[this.map_brand[brand_name]][this.dates[i]]));
 				}
 
@@ -166,11 +166,12 @@ function drawChart(data) {
 		title: '',
 		width: $("#stock_chart").width(),
 		height: $("#stock_chart").width() / 2,
-		pieSliceText: 'label',
-		is3D: true
+		displayAnnotations: true,
+		scaleType: 'allmaximized'
+
 	}
 
 	// 描画する
-	var stock_chart = new google.visualization.LineChart(document.getElementById('stock_chart'));
+	var stock_chart = new google.visualization.AnnotatedTimeLine(document.getElementById('stock_chart'));
 	stock_chart.draw(data, options);
 }

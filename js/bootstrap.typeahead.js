@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap-typeahead.js v2.2.2
+ * bootstrap-typeahead.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#typeahead
  * =============================================================
  * Copyright 2012 Twitter, Inc.
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============================================================ */
-var Typeahead;
+
 
 !function($){
 
@@ -26,7 +26,7 @@ var Typeahead;
  /* TYPEAHEAD PUBLIC CLASS DEFINITION
   * ================================= */
 
-  Typeahead = function (element, options) {
+  var Typeahead = function (element, options) {
     this.$element = $(element)
     this.options = $.extend({}, $.fn.typeahead.defaults, options)
     this.matcher = this.options.matcher || this.matcher
@@ -36,8 +36,6 @@ var Typeahead;
     this.source = this.options.source
     this.$menu = $(this.options.menu)
     this.shown = false
-    this.items = []
-    this.previousKeyup = 0
     this.listen()
   }
 
@@ -145,7 +143,7 @@ var Typeahead;
         return i[0]
       })
 
-      items.first().addClass('active')
+      //items.first().addClass('active')
       this.$menu.html(items)
       return this
     }
@@ -174,6 +172,7 @@ var Typeahead;
 
   , listen: function () {
       this.$element
+        .on('focus',    $.proxy(this.focus, this))
         .on('blur',     $.proxy(this.blur, this))
         .on('keypress', $.proxy(this.keypress, this))
         .on('keyup',    $.proxy(this.keyup, this))
@@ -185,6 +184,7 @@ var Typeahead;
       this.$menu
         .on('click', $.proxy(this.click, this))
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
+        .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
     }
 
   , eventSupported: function(eventName) {
@@ -241,27 +241,9 @@ var Typeahead;
 
         case 9: // tab
         case 13: // enter
-        	// 候補を選択している場合
-          if (this.$menu.find('.active').attr('data-value') != undefined){
-	          return this.select();
-          }
-          else{
-          	for(var i = 0; i < this.items.length; i++){
-	          	if(this.query == this.items[i].split(',')[0]){
-		          	this.$element
-					        .val(this.updater(this.query))
-					        .change()
-					      return this.hide()				      
-	          	}
-	          	else if(this.query.match(/[^A-z]/) == null && this.items.length > 0 && this.query.toLowerCase() == this.items[i].split(',')[0].toLowerCase()){
-		          	this.$element
-					        .val(this.updater(this.query))
-					        .change()
-					      return this.hide()
-	          	}
-          	}
-	          this.lookup();
-          }
+          if (!this.shown) return
+          this.select()
+          break
 
         case 27: // escape
           if (!this.shown) return
@@ -271,25 +253,36 @@ var Typeahead;
         default:
           this.lookup()
       }
-      this.previousKeyup = e.keyCode
+
       e.stopPropagation()
       e.preventDefault()
   }
 
+  , focus: function (e) {
+      this.focused = true
+    }
+
   , blur: function (e) {
-      var that = this
-      setTimeout(function () { that.hide() }, 150)
+      this.focused = false
+      if (!this.mousedover && this.shown) this.hide()
     }
 
   , click: function (e) {
       e.stopPropagation()
       e.preventDefault()
       this.select()
+      this.$element.focus()
     }
 
   , mouseenter: function (e) {
+      this.mousedover = true
       this.$menu.find('.active').removeClass('active')
       $(e.currentTarget).addClass('active')
+    }
+
+  , mouseleave: function (e) {
+      this.mousedover = false
+      if (!this.focused && this.shown) this.hide()
     }
 
   }
@@ -336,7 +329,6 @@ var Typeahead;
   $(document).on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
     var $this = $(this)
     if ($this.data('typeahead')) return
-    e.preventDefault()
     $this.typeahead($this.data())
   })
 

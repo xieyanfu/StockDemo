@@ -207,11 +207,13 @@
 		<script src="https://www.google.com/jsapi"></script>
 		<script src="js/charts.js"></script>
 		<script src="js/autocomplete.js"></script>
-
+		<script src="js/bootstrap.typeahead.js"></script>
 		<script	src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
 		<script>
 			jQuery(document).ready(function() {
 				// initiate layout and plugins
+				$("#stock_chart").css('height', $("#stock_chart").width() / 2);
 				App.init();
 				Search.init();
 				UISliders.initSliders();

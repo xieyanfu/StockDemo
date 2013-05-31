@@ -34,10 +34,17 @@ $(function() {
 				}
 			});
 		},
-		updater: function(query){
-			selected_brand_code = candidates[query];
-			selected_brand_name = query;
-			return query;
+		updater: function(item){
+			selected_brand_code = candidates[item];
+			selected_brand_name = item;
+			console.log(item);
+			if(item == undefined){
+				return this.query;
+			}else if(item.length == 0){
+				return this.query;
+			}else{
+				return item;
+			}
 		},
 		matcher: function(item){
 			console.log(item);
