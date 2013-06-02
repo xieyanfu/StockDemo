@@ -5,6 +5,9 @@
     Description:
         Purpose of the stylesheet follows.
 */
+body {
+	font-family: "Meiryo"
+}
 
 .navbar-inverse .brand {
     color : whitesmoke;
