@@ -15,6 +15,8 @@ function makeSQL($brand_code){
     else {
         $request .= sprintf(" where brand_code = '0101'");
     }
+    $request .= sprintf(" and (market_category = 't1' or market_category = 'i')");
+
     if (s($_GET["from"]) != "" and s($_GET["to"]) != ""){
         $request .= sprintf(" and date between '%s' and '%s'", s($_GET["from"]), s($_GET["to"]));
     }
