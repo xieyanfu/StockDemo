@@ -1,0 +1,44 @@
+/*
+    Document   : nikkei
+    Created on : 2013/07/29, 3:11:55
+    Author     : kazuki
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.kiji{
+	list-style-type: none;
+	/*background-color: #f8f8f8;*/
+}
+#kijis{
+	margin-left: 0px;
+}
+.kiji_entity li{
+	list-style-type: none;
+	padding: 15px;
+	/*color: white;*/
+}
+.kiji_date{
+	border-left: 3px solid #d84a38;
+	background-color: #e6e6e6;
+/*	background-color: #d84a38;*/
+}
+.kiji_brand{
+	background-color: #35aa47;
+}
+.kiji_rate_0{
+	color: white;
+	background-color: #555555;
+}
+.kiji_rate_1{
+	color: white;
+	background-color: #4d90fe;
+}
+.kiji_rate_2{
+	color: white;
+	background-color: #d84a38;
+}
+
+.row-fluid [class*="span"]{
+margin-left: 0;
+}

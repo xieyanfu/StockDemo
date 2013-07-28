@@ -6,7 +6,8 @@
         Purpose of the stylesheet follows.
 */
 body {
-	font-family: "Meiryo"
+	font-family: "Meiryo";
+	list-style-type: none;
 }
 
 .navbar-inverse .brand {

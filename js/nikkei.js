@@ -1,0 +1,85 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+var KijiData = function() {
+	this.page_type = "";
+	this.kijis;
+	this.page_num = 0;
+	this.date = "";
+	return {
+		init : function(type){
+			this.page_type = type;
+			this.page_num = 0;
+			this.getKiji();
+		},
+		getKiji : function (){
+			baseURL = "http://www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/getKiji_raw?";
+			if (this.page_type == "annotation"){
+				var data = {
+					type : this.page_type
+				};
+				App.blockUI($("#kiji_window"));
+				console.log(data);
+			}
+			else{
+				var data = {
+					type : this.page_type,
+					start : this.page_num * 10
+				};
+			}
+			$.ajax({
+				type: "GET",
+				url: baseURL,
+				data: data,
+				dataType: 'jsonp',
+				success: function(response){
+					KijiData.kijis = response;
+					KijiData.drawKijis();
+					App.unblockUI($("#chart_window"));
+				}
+			});
+		},
+		drawKijis : function(){
+			$("#kijis").children().remove();
+			console.log(this.kijis);
+			for (i = 0; i < this.kijis.data.length; i++){
+				html = "<li class='kiji span12'><div class='kiji_text span8'>";
+				html += "<h4>" + this.kijis.data[i].kiji_midashi + "</h3>";
+				html += "<p>" + this.kijis.data[i].kiji_headline + "</p></div>";
+				html += "<ul class='span4 kiji_entity'>";
+				if (this.page_type == "view"){
+					html += '<li class="kiji_rate_' + this.kijis.data[i].rate + '"><span>rate: '+ this.kijis.data[i].rate +'</span></li>';
+				}
+				html += '<li class="kiji_date"><span>date: '+ this.kijis.data[i].date +'</span></li>';
+				html += "</ul>";
+				html += "</li>";
+
+				$("#kijis").append(html);
+			}
+		},
+		getNextKijis : function() {
+			this.page_num ++;
+			this.getKiji();
+		},
+		annotateKiji : function(rate){
+			baseURL = "http://www.ai.cs.kobe-u.ac.jp/~fujikawa/softwares/StockDemo/api/annotateKiji?";
+			data = {
+				rate : rate,
+				kiji_id : this.kijis.data[0].kiji_id
+			};
+			$.ajax({
+				type: "GET",
+				url: baseURL,
+				data: data,
+				dataType: 'jsonp',
+				success: function(response){
+					KijiData.getKiji();
+				}
+			});
+		}
+
+	};
+}();
+
