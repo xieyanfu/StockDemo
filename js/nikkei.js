@@ -60,7 +60,15 @@ var KijiData = function() {
 				html += "<p>" + this.kijis.data[i].kiji_headline + "</p></div>";
 				html += "<ul class='span4 kiji_entity'>";
 				if (this.page_type == "view"){
-					html += '<li class="kiji_rate_' + this.kijis.data[i].rate + '"><span>rate: '+ this.kijis.data[i].rate +'</span></li>';
+//					html += '<li class="kiji_rate_' + this.kijis.data[i].rate + '"><span>rate: '+ this.kijis.data[i].rate +'</span></li>';
+					html += '<li><ul class="unstyled inline star">';
+					for (n = 0; n < this.kijis.data[i].rate; n++){
+						html += '<li><i class="icon-star"></i></li>';
+					}
+					for (n = 0; n < 3 - this.kijis.data[i].rate; n++){
+						html += '<li><i class="icon-star-empty"></i></li>';
+					}
+					html += '</ul></li>';
 				}
 				html += '<li class="kiji_date"><span>date: '+ this.kijis.data[i].date +'</span></li>';
 				html += "</ul>";

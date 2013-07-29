@@ -50,3 +50,8 @@ margin-left: 0;
 	list-style-type: none;
 	padding-bottom: 15px;
 }
+.star li{
+	color: #f8be2c;
+	font-size: 25px;
+	padding: 0px;
+}
