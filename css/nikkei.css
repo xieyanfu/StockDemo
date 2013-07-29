@@ -42,3 +42,6 @@
 .row-fluid [class*="span"]{
 margin-left: 0;
 }
+.annotationField{
+	margin-bottom: 5px;
+}
