@@ -45,3 +45,8 @@ margin-left: 0;
 .annotationField{
 	margin-bottom: 5px;
 }
+.pagination li{
+	float: left;
+	list-style-type: none;
+	padding-bottom: 15px;
+}

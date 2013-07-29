@@ -8,10 +8,12 @@ var KijiData = function() {
 	this.kijis;
 	this.page_num = 0;
 	this.date = "";
+	this.count = 0;
 	return {
 		init : function(type){
 			this.page_type = type;
 			this.page_num = 0;
+			this.count = 0;
 			this.getKiji();
 		},
 		getKiji : function (){
@@ -36,12 +38,20 @@ var KijiData = function() {
 				dataType: 'jsonp',
 				success: function(response){
 					KijiData.kijis = response;
+					if (KijiData.kijis.count != undefined){
+						KijiData.count = KijiData.kijis.count;
+						console.log(KijiData.count);
+					}
+
 					KijiData.drawKijis();
 					App.unblockUI($("#chart_window"));
 				}
 			});
 		},
 		drawKijis : function(){
+			if (this.page_type == "view"){
+				this.reflectHitNum();
+			}
 			$("#kijis").children().remove();
 			console.log(this.kijis);
 			for (i = 0; i < this.kijis.data.length; i++){
@@ -59,8 +69,18 @@ var KijiData = function() {
 				$("#kijis").append(html);
 			}
 		},
+		reflectHitNum : function() {
+			$("#hit_num").children().remove();
+			$("#hit_num").append("<p>アノテーション済記事：" + this.count + " 件</p>");
+			$("#current_page").html("");
+			$("#current_page").append((this.page_num * 10 + 1) + "件 ~ " + (this.page_num * 10 + 10) + "件（全" + this.count + "件）");
+		},
 		getNextKijis : function() {
 			this.page_num ++;
+			this.getKiji();
+		},
+		getPrevKijis : function() {
+			this.page_num --;
 			this.getKiji();
 		},
 		annotateKiji : function(rate){
